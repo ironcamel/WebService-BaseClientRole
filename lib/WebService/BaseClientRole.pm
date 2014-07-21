@@ -163,9 +163,13 @@ the fun part - writing the web service specific code.
 
 =over
 
-=item L<Net::HTTP::API>
+=item *
 
-=item L<Role::REST::Client>
+L<Net::HTTP::API>
+
+=item *
+
+L<Role::REST::Client>
 
 =back
 

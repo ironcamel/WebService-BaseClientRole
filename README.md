@@ -4,7 +4,7 @@ WebService::BaseClientRole
 
 # VERSION
 
-version 0.0002
+version 0.0003
 
 # SYNOPSIS
 
