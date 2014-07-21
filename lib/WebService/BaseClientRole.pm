@@ -47,7 +47,7 @@ sub put {
 }
 
 sub delete {
-    my ($self, $path);
+    my ($self, $path) = @_;
     return $self->_req(DELETE $path);
 }
 
