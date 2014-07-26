@@ -8,40 +8,34 @@ version 0.0004
 
 # SYNOPSIS
 
-    # Easily create a web service client:
-    # FILE: lib/WebService/Foo.pm
+    {
+        package WebService::Foo;
+        use Moo;
+        with 'WebService::BaseClientRole';
 
-    package WebService::Foo;
-    use Moo;
-    with 'WebService::BaseClientRole';
+        has auth_token => ( is => 'ro', required => 1 );
+        has '+base_url' => ( default => 'https://foo.com/v1' );
 
-    has auth_token => ( is => 'ro', required => 1 );
-    has '+base_url' => ( default => 'https://foo.com/v1' );
+        sub BUILD {
+            my ($self) = @_;
+            $self->ua->default_header('X-Auth-Token' => $self->auth_token);
+        }
 
-    sub BUILD {
-        my ($self) = @_;
-        $self->ua->default_header('X-Auth-Token' => $self->auth_token);
+        sub get_widgets {
+            my ($self) = @_;
+            return $self->get("/widgets");
+        }
+
+        sub get_widget {
+            my ($self, $id) = @_;
+            return $self->get("/widgets/$id");
+        }
+
+        sub create_widget {
+            my ($self, $widget_data) = @_;
+            return $self->post("/widgets", $widget_data);
+        }
     }
-
-    sub get_widgets {
-        my ($self) = @_;
-        return $self->get("/widgets");
-    }
-
-    sub get_widget {
-        my ($self, $id) = @_;
-        return $self->get("/widgets/$id");
-    }
-
-    sub create_widget {
-        my ($self, $widget_data) = @_;
-        return $self->post("/widgets", $widget_data);
-    }
-
-    1;
-
-    # Example usage
-    # FILE: foo.pl
 
     my $client = WebService::Foo->new(
         auth_token => 'abc',
