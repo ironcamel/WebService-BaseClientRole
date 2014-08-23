@@ -105,6 +105,8 @@ sub log {
     $self->logger->DEBUG($msg);
 }
 
+# ABSTRACT: A base role for quickly and easily creating web service clients
+
 =head1 SYNOPSIS
 
     {

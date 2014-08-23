@@ -1,6 +1,6 @@
 # NAME
 
-WebService::BaseClientRole
+WebService::BaseClientRole - A base role for quickly and easily creating web service clients
 
 # VERSION
 
