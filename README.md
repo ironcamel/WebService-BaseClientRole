@@ -4,7 +4,7 @@ WebService::BaseClientRole
 
 # VERSION
 
-version 0.0004
+version 0.0005
 
 # SYNOPSIS
 
@@ -19,6 +19,8 @@ version 0.0004
         sub BUILD {
             my ($self) = @_;
             $self->ua->default_header('X-Auth-Token' => $self->auth_token);
+            # or if the web service uses http basic/digest authentication:
+            # $self->ua->credentials( ... );
         }
 
         sub get_widgets {
@@ -47,8 +49,7 @@ version 0.0004
 
 # DESCRIPTION
 
-This module is a generic base role for quickly and easily creating web service
-clients.
+This module is a base role for quickly and easily creating web service clients.
 Every time I created a web service client, I noticed that I kept rewriting the
 same boilerplate code independent of the web service.
 This module does the boring boilerplate for you so you can just focus on
