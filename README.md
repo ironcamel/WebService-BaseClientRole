@@ -4,7 +4,7 @@ WebService::BaseClientRole - A base role for quickly and easily creating web ser
 
 # VERSION
 
-version 0.0005
+version 0.0006
 
 # SYNOPSIS
 
@@ -54,6 +54,77 @@ Every time I created a web service client, I noticed that I kept rewriting the
 same boilerplate code independent of the web service.
 This module does the boring boilerplate for you so you can just focus on
 the fun part - writing the web service specific code.
+
+It is important to note that this only supports JSON based web services.
+If your web service does not support JSON, then I am sorry.
+
+# METHODS
+
+These are the methods this role composes into your class.
+The HTTP methods (get, post, put, and delete) will return the deserialized
+response data, assuming the response body contained any data.
+This will usually be a hashref.
+If the web service responds with a failure, then the corresponding HTTP
+response object is thrown as an exception.
+This exception is simply an [HTTP::Response](http://search.cpan.org/perldoc?HTTP::Response) object that can be stringified.
+HTTP responses with a status code of 404 or 410 will not result in an exception.
+Instead, the corresponding methods will simply return `undef`.
+The reasoning behind this is that GET'ing a resource that does not exist
+does not warrant an exception.
+
+## get
+
+    $client->get('/foo')
+
+Makes an HTTP POST request.
+
+## post
+
+    $client->post('/foo', { some => 'data' })
+
+Makes an HTTP POST request.
+
+## put
+
+    $client->put('/foo', { some => 'data' })
+
+Makes an HTTP PUT request.
+
+## delete
+
+    $client->delete('/foo')
+
+Makes an HTTP DELETE request.
+
+## req
+
+    my $req = HTTP::Request->new(...);
+    $client->req($req);
+
+This is called internally by the above HTTP methods.
+You will usually not need to call this explicitly.
+It is exposed as part of the public interface in case you may want to add
+a method modifier to it.
+Here is a contrived example:
+
+    around _req => sub {
+        my ($orig, $self, $req) = @_;
+        $req->authorization_basic($self->login, $self->password);
+        return $self->$orig($req, @rest);
+    };
+
+## log
+
+Logs a message using the provided logger.
+
+# EXAMPLES
+
+Here are some examples of web service clients built with this role.
+You can view their source to help you get started.
+
+- [WebService::HipChat](http://search.cpan.org/perldoc?WebService::HipChat)
+- [WebService::Lob](http://search.cpan.org/perldoc?WebService::Lob)
+- [WebService::SmartyStreets](http://search.cpan.org/perldoc?WebService::SmartyStreets)
 
 # SEE ALSO
 

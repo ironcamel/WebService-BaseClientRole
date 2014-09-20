@@ -33,22 +33,22 @@ sub get {
     if (%$params) {
         $q = '?' . join '&', map { "$_=$params->{$_}" } keys %$params;
     }
-    return $self->_req(GET "$path$q");
+    return $self->req(GET "$path$q");
 }
 
 sub post {
     my ($self, $path, $params) = @_;
-    return $self->_req(POST $path, content => encode_json $params);
+    return $self->req(POST $path, content => encode_json $params);
 }
 
 sub put {
     my ($self, $path, $params) = @_;
-    return $self->_req(PUT $path, content => encode_json $params);
+    return $self->req(PUT $path, content => encode_json $params);
 }
 
 sub delete {
     my ($self, $path) = @_;
-    return $self->_req(DELETE $path);
+    return $self->req(DELETE $path);
 }
 
 # Prefix the path param of the http methods with the base_url
@@ -61,7 +61,7 @@ around qw(delete get post put) => sub {
     return $self->$orig($url, @_);
 };
 
-sub _req {
+sub req {
     my ($self, $req) = @_;
     $req->header(content_type => 'application/json');
     $self->_log_request($req);
@@ -155,6 +155,89 @@ Every time I created a web service client, I noticed that I kept rewriting the
 same boilerplate code independent of the web service.
 This module does the boring boilerplate for you so you can just focus on
 the fun part - writing the web service specific code.
+
+It is important to note that this only supports JSON based web services.
+If your web service does not support JSON, then I am sorry.
+
+=head1 METHODS
+
+These are the methods this role composes into your class.
+The HTTP methods (get, post, put, and delete) will return the deserialized
+response data, assuming the response body contained any data.
+This will usually be a hashref.
+If the web service responds with a failure, then the corresponding HTTP
+response object is thrown as an exception.
+This exception is simply an L<HTTP::Response> object that can be stringified.
+HTTP responses with a status code of 404 or 410 will not result in an exception.
+Instead, the corresponding methods will simply return C<undef>.
+The reasoning behind this is that GET'ing a resource that does not exist
+does not warrant an exception.
+
+=head2 get
+
+    $client->get('/foo')
+
+Makes an HTTP POST request.
+
+=head2 post
+
+    $client->post('/foo', { some => 'data' })
+
+Makes an HTTP POST request.
+
+=head2 put
+
+    $client->put('/foo', { some => 'data' })
+
+Makes an HTTP PUT request.
+
+=head2 delete
+
+    $client->delete('/foo')
+
+Makes an HTTP DELETE request.
+
+=head2 req
+
+    my $req = HTTP::Request->new(...);
+    $client->req($req);
+
+This is called internally by the above HTTP methods.
+You will usually not need to call this explicitly.
+It is exposed as part of the public interface in case you may want to add
+a method modifier to it.
+Here is a contrived example:
+
+    around _req => sub {
+        my ($orig, $self, $req) = @_;
+        $req->authorization_basic($self->login, $self->password);
+        return $self->$orig($req, @rest);
+    };
+
+=head2 log
+
+Logs a message using the provided logger.
+
+=head1 EXAMPLES
+
+Here are some examples of web service clients built with this role.
+You can view their source to help you get started.
+
+=over
+
+=item *
+
+L<WebService::HipChat>
+
+=item *
+
+L<WebService::Lob>
+
+=item *
+
+L<WebService::SmartyStreets>
+
+=back
 
 =head1 SEE ALSO
 
