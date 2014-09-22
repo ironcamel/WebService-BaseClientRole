@@ -4,7 +4,7 @@ WebService::BaseClientRole - A base role for quickly and easily creating web ser
 
 # VERSION
 
-version 0.0006
+version 0.0007
 
 # SYNOPSIS
 
@@ -107,7 +107,7 @@ It is exposed as part of the public interface in case you may want to add
 a method modifier to it.
 Here is a contrived example:
 
-    around _req => sub {
+    around req => sub {
         my ($orig, $self, $req) = @_;
         $req->authorization_basic($self->login, $self->password);
         return $self->$orig($req, @rest);
@@ -122,6 +122,7 @@ Logs a message using the provided logger.
 Here are some examples of web service clients built with this role.
 You can view their source to help you get started.
 
+- [Business::BalancedPayments](http://search.cpan.org/perldoc?Business::BalancedPayments)
 - [WebService::HipChat](http://search.cpan.org/perldoc?WebService::HipChat)
 - [WebService::Lob](http://search.cpan.org/perldoc?WebService::Lob)
 - [WebService::SmartyStreets](http://search.cpan.org/perldoc?WebService::SmartyStreets)
