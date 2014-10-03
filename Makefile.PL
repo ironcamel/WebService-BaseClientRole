@@ -10,7 +10,7 @@ use ExtUtils::MakeMaker ;
 
 
 my %WriteMakefileArgs = (
-  "ABSTRACT" => "A base role for quickly and easily creating web service clients",
+  "ABSTRACT" => "[DEPRECATED] A base role for quickly and easily creating web service clients",
   "AUTHOR" => "Naveed Massjouni <naveed\@vt.edu>",
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => 0
@@ -35,7 +35,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.0007",
+  "VERSION" => "0.0008",
   "test" => {
     "TESTS" => "t/*.t"
   }

@@ -1,12 +1,15 @@
 # NAME
 
-WebService::BaseClientRole - A base role for quickly and easily creating web service clients
+WebService::BaseClientRole - \[DEPRECATED\] A base role for quickly and easily creating web service clients
 
 # VERSION
 
-version 0.0007
+version 0.0008
 
 # SYNOPSIS
+
+__This module has been DEPRECATED in favor of__ [WebService::Client](http://search.cpan.org/perldoc?WebService::Client).
+Please consider using that instead.
 
     {
         package WebService::Foo;
@@ -48,6 +51,9 @@ version 0.0007
     $client->create_widget({ color => 'blue' });
 
 # DESCRIPTION
+
+__This module has been DEPRECATED in favor of__ [WebService::Client](http://search.cpan.org/perldoc?WebService::Client).
+Please consider using that instead.
 
 This module is a base role for quickly and easily creating web service clients.
 Every time I created a web service client, I noticed that I kept rewriting the
@@ -129,6 +135,7 @@ You can view their source to help you get started.
 
 # SEE ALSO
 
+- [WebService::Client](http://search.cpan.org/perldoc?WebService::Client)
 - [Net::HTTP::API](http://search.cpan.org/perldoc?Net::HTTP::API)
 - [Role::REST::Client](http://search.cpan.org/perldoc?Role::REST::Client)
 

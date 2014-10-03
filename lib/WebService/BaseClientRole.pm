@@ -63,6 +63,8 @@ around qw(delete get post put) => sub {
 
 sub req {
     my ($self, $req) = @_;
+    warn 'WebService::BaseClientRole has been DEPRECATED in favor of'
+        . ' WebService::Client.';
     $req->header(content_type => 'application/json');
     $self->_log_request($req);
     my $res = $self->ua->request($req);
@@ -105,9 +107,12 @@ sub log {
     $self->logger->DEBUG($msg);
 }
 
-# ABSTRACT: A base role for quickly and easily creating web service clients
+# ABSTRACT: [DEPRECATED] A base role for quickly and easily creating web service clients
 
 =head1 SYNOPSIS
+
+B<This module has been DEPRECATED in favor of> L<WebService::Client>.
+Please consider using that instead.
 
     {
         package WebService::Foo;
@@ -149,6 +154,9 @@ sub log {
     $client->create_widget({ color => 'blue' });
 
 =head1 DESCRIPTION
+
+B<This module has been DEPRECATED in favor of> L<WebService::Client>.
+Please consider using that instead.
 
 This module is a base role for quickly and easily creating web service clients.
 Every time I created a web service client, I noticed that I kept rewriting the
@@ -246,6 +254,10 @@ L<WebService::SmartyStreets>
 =head1 SEE ALSO
 
 =over
+
+=item *
+
+L<WebService::Client>
 
 =item *
 
